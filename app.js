@@ -10,7 +10,7 @@ import cookieParser from "cookie-parser";
 // Para recuperar contraseña
 // import recoveryPasswors from "./src/routes/recoveryPassword.js";
 import registrarEstudiantes from "./src/routes/registrarEstudiantes.js";
-import registrarDocentes from "./src/routes/recuperarContraseñaDocentes.js";
+import registrarDocentes from "./src/routes/registrarDocentes.js";
 import loginEstudiantes from "./src/routes/loguinEstudiantes.js";
 import loginDocentes from "./src/routes/loginDocentes.js";
 import recuperarContraseñaEstudiantes from "./src/routes/recuperarContraseñaEstudiantes.js";

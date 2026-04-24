@@ -31,9 +31,9 @@ registrarEstudiantesController.register = async (req, res) => {
 
   try {
     // Varicar si el cliente ya existe
-    const existEstudiante = await estudiantesModel.findOne({ email });
-    if (existestudiante) {
-      return res.status(400).json({ message: "estudiante already exist" });
+    const existeEstudiante = await estudiantesModel.findOne({ email });
+    if (existeEstudiante) {
+      return res.status(400).json({ message: "Estudiante ya registrado" });
     }
 
     // Encrytamos la contraseña

@@ -9,14 +9,14 @@ import crypto from "crypto";
 import jsonwebtoken from "jsonwebtoken";
 import bcrypjs from "bcryptjs";
 
-import estudiantesModel from "../models/estudiantes.js";
+import docentesModel from "../models/docentes.js";
 import { config } from "../../config.js";
 
 // Creo un array de funciones
-const registrarEstudiantesController = {};
+const registrarDocentesController = {};
 
 // Enpoint para registrar el usuario y luego mandarle el codigo de verificacion por correo
-registrarEstudiantesController.register = async (req, res) => {
+registrarDocentesController.register = async (req, res) => {
   // Solicitar los datos a guardar
   const {
     name,
@@ -31,16 +31,16 @@ registrarEstudiantesController.register = async (req, res) => {
 
   try {
     // Varicar si el cliente ya existe
-    const existEstudiante = await estudiantesModel.findOne({ email });
-    if (existestudiante) {
-      return res.status(400).json({ message: "estudiante already exist" });
+    const existeDocente = await docentesModel.findOne({ email });
+    if (existeDocente) {
+      return res.status(400).json({ message: "docente existe" });
     }
 
     // Encrytamos la contraseña
     const passwordHash = await bcrypjs.hash(password, 10); // el 10 es por que definimos cuantas veces se va a repetir este proceso
 
     // Guardamos todo en la base de datos
-    const nuevoEstudiante = await estudiantesModel({
+    const nuevoDocente = await docentesModel({
       name,
       lastName,
       email,
@@ -52,7 +52,7 @@ registrarEstudiantesController.register = async (req, res) => {
     });
 
     // Guardamos todo en la base datos
-    await nuevoEstudiante.save();
+    await nuevoDocente.save();
 
     // Enviamos un codigo de verificacion, para verifiar si el usuario es dueño de ese correo
     const verificationCode = crypto.randomBytes(3).toString("hex"); // hex: Exadecimal y al final sera 3 numeros y 3 letras
@@ -102,7 +102,7 @@ registrarEstudiantesController.register = async (req, res) => {
 
       res
         .status(200)
-        .json({ message: "Estudiante registrado, Verifica tu cuenta" });
+        .json({ message: "Docente registrado, Verifica tu cuenta" });
     });
   } catch (error) {
     console.log("error:" + error);
@@ -111,7 +111,7 @@ registrarEstudiantesController.register = async (req, res) => {
 };
 
 // Verificar el codigo que le acabamos de enviar
-registrarEstudiantesController.verifyCode = async (req, res) => {
+registrarDocentesController.verifyCode = async (req, res) => {
   try {
     // Solicitamos el codigo que escribieron en el frontEnd
     const { varificationCodeRequest } = req.body;
@@ -132,7 +132,7 @@ registrarEstudiantesController.verifyCode = async (req, res) => {
 
     //Si el codigo esta bien, entonces, colocamos el campo
     //"isVerified" en true
-    const estudiante = await estudiantesModel.findOne({ email });
+    const estudiante = await docentesModel.findOne({ email });
     estudiante.isVerified = true;
     await estudiante.save();
 
@@ -146,4 +146,4 @@ registrarEstudiantesController.verifyCode = async (req, res) => {
   }
 };
 
-export default registrarEstudiantesController;
+export default registrarDocentesController;
